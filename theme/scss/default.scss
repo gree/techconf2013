@@ -171,7 +171,7 @@ slides > slide {
   }
 
   &:not(.nobackground) {
-    @include background(-webkit-linear-gradient(90deg, $brand-blue, $brand-blue) left 0 bottom 6px / 100% $slide-top-bottom-padding - 6 no-repeat);
+    @include background(linear-gradient(90deg, $brand-blue, $brand-blue) left 0 bottom 6px / 100% $slide-top-bottom-padding - 6 no-repeat);
 
     &:before {
       font-size: 11pt;
@@ -180,10 +180,8 @@ slides > slide {
       color: $brand-white;
       bottom: 12px;
       left: $slide-left-right-padding;
-      @include background(url(../../images/gree_logo_small.png) 50% 0 no-repeat);
+      @include background(url(../../images/gree_wlogo_small.png) 50% 0 no-repeat);
       @include background-size(auto $brand-small-icon-height);
-      @include border-radius(5px);
-      background-color: white;
       width: $brand-small-icon-height * $brand-small-icon-ratio;
       height: $brand-small-icon-height;
       padding: 0 5px;
@@ -193,12 +191,11 @@ slides > slide {
     }
     &:after {
       font-size: 12pt;
+      color: $brand-white;
       content: attr(data-slide-num) '/' attr(data-total-slides);
       position: absolute;
       bottom: 12px;
       right: $slide-left-right-padding;
-      @include border-radius(5px);
-      background-color: white;
       line-height: $brand-small-icon-height;
       padding: 0 10px;
     }
@@ -867,8 +864,8 @@ article.smaller {
   div {
     position:absolute;
     bottom: 25px;
-    @include border-radius(10px 0 0 10px);
-    background: $brand-white;
+    @include border-radius(5px 0 0 5px);
+    background: white;
     padding: 85px 125px;
     left: 30px;
     right: 0;
@@ -880,11 +877,11 @@ article.smaller {
 
     article > p {
       margin-top: 2em;
-      font-size: 20pt;
+      font-size: 22pt;
     }
 
     > p {
-      font-size: 24pt;
+      font-size: 22pt;
       line-height: 1.3;
     }
   }
@@ -898,8 +895,8 @@ aside.gdbar {
   left: -1px;
   //top: 125px;
   top: -150px;
-  @include border-radius(0 10px 10px 0);
-  @include background(linear-gradient(left, $gray-1, $gray-1) no-repeat);
+  @include border-radius(0 5px 5px 0);
+  @include background(linear-gradient(left, white, white) no-repeat);
   @include background-size(100% 100%);
   @include transition(all 0.5s ease-out 0.5s); /* Better to transition only on background-size, but not sure how to do that with the mixin. */
 
@@ -939,8 +936,8 @@ aside.gdbar {
 
   hgroup {
     bottom: 25px;
-    @include border-radius(10px 0 0 10px);
-    background: $brand-white;
+    @include border-radius(5px 0 0 5px);
+    background: white;
     padding: 85px 125px;
     left: 30px;
     right: 0;
