@@ -1,0 +1,7 @@
+
+* style recalculation
+* layout calculation
+** JavaScript
+* painting
+* compositing.
+* setTimeout vs requestAnimationFrame
