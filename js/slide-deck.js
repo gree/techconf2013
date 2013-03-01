@@ -424,6 +424,7 @@ SlideDeck.prototype.buildNextItem_ = function() {
   var slide = this.slides[this.curSlide_];
   var toBuild = slide.querySelector('.to-build');
   var built = slide.querySelector('.build-current');
+  var j, item;
 
   if (built) {
     built.classList.remove('build-current');
@@ -434,9 +435,23 @@ SlideDeck.prototype.buildNextItem_ = function() {
 
   if (!toBuild) {
     var items = slide.querySelectorAll('.build-fade');
-    for (var j = 0, item; item = items[j]; j++) {
+    for (j = 0, item; item = items[j]; j++) {
       item.classList.remove('build-fade');
     }
+
+    if (slide.querySelector('.highlighting')) {
+      return false;
+    }
+
+    items = slide.querySelectorAll('[data-highlight]');
+    if (items.length !== 0) {
+      for (j = 0; item = items[j]; j++) {
+        item.parentNode.classList.add('highlighting');
+      }
+
+      return true;
+    }
+
     return false;
   }
 

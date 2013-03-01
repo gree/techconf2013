@@ -214,7 +214,7 @@ slides > slide {
   > hgroup + article {
     margin-top: $article-content-top-padding;
 
-    &.flexbox {
+    &.box {
       &.vcenter, &.vleft, &.vright {
         height: 80%;
       }
@@ -331,6 +331,14 @@ ul {
   margin-bottom: 1em;
   position: relative;
 
+  h3 {
+    margin-bottom: 0.6em;
+    margin-right: 20%;
+    padding-left: 0.6em;
+    margin-left: -0.6em;
+    border-bottom: solid $brand-blue;
+  }
+
   li {
     margin-bottom: 0.5em;
 
@@ -365,6 +373,17 @@ ul {
   }
   b {
     opacity: 1;
+  }
+}
+
+.highlighting {
+  > [data-highlight] {
+    opacity: 1;
+  }
+
+  > :not([data-highlight]) {
+    opacity: 0.25;
+    @include transition(opacity 0.5s ease-in);
   }
 }
 
@@ -501,6 +520,15 @@ button:not(:disabled):active {
 
 .columns-2 {
   @include column-count(2);
+}
+
+.columns {
+  @include flexbox;
+  @include flex-flow(row);
+
+  > * {
+    @include flex;
+  }
 }
 
 table {
@@ -664,7 +692,7 @@ article.smaller {
   background: rgba(0, 0, 0, 0.3);
   opacity: 0;
   pointer-events: none;
-  @include flexbox;
+  @include box;
   @include flex-center-center;
   @include border-radius($slide-border-radius);
 
@@ -776,23 +804,23 @@ article.smaller {
   box-reflect: below 3px linear-gradient(rgba(255,255,255,0) 85%, white 150%);
 }
 
-.flexbox {
-  @include flexbox;
+.box {
+  @include box;
 }
 
-.flexbox.vcenter {
+.box.vcenter {
   @include flex-center-center;
   height: 100%;
   width: 100%;
 }
 
-.flexbox.vleft {
+.box.vleft {
   @include flex-left-center;
   height: 100%;
   width: 100%;
 }
 
-.flexbox.vright {
+.box.vright {
   @include flex-right-center;
   height: 100%;
   width: 100%;

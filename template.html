@@ -1,8 +1,10 @@
 <!--
 Google IO 2012 HTML5 Slide Template
+GREE Technology Conference 2013.
 
 Authors: Eric Bidelman <ebidel@gmail.com>
          Luke Mahé <lukem@google.com>
+          Jason Parrott <jason.parrott@gree.net>
 
 URL: https://code.google.com/p/io-2012-slides
 -->
@@ -125,7 +127,7 @@ URL: https://code.google.com/p/io-2012-slides
         }
 
         displayPerformance();
-        <b>// &gt; "Displaying a web page with speed"</b>
+        <span data-highlight>// &gt; "Displaying a web page with speed"</span>
       </pre>
     </article>
   </slide>
@@ -146,11 +148,46 @@ URL: https://code.google.com/p/io-2012-slides
           displayPerformance(types[i]);
         }
 
-        <b>// &gt; "Displaying a web page with awesome speed"</b>
+        <span data-highlight>// &gt; "Displaying a web page with awesome speed"</span>
         // &gt; "Displaying a web page with good speed"
         // &gt; "Displaying a web page with bad speed"
         // &gt; "Displaying a web page with terrible speed"
       </pre>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Performance</h2>
+      <h3>Types of performance on the web</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Types of Performance on the Web</h2>
+    </hgroup>
+    <article>
+      <p>There are several types of performance that we could look at.</p>
+      <div class="columns">
+        <ul class="build">
+          <h3>HTML</h3>
+          <li>Network</li>
+          <li>Resource</li>
+          <li>Parsing</li>
+          <li data-highlight>Layout</li>
+          <li data-highlight>Paint</li>
+          <li data-highlight>Compositing</li>
+        </ul>
+        <ul class="build">
+          <h3>JavaScript</h3>
+          <li>Raw execution</li>
+          <li data-highlight>Usage of DOM</li>
+          <li data-highlight>Canvas</li>
+          <li>A million others...</li>
+        </ul>
+      </div>
     </article>
   </slide>
 
