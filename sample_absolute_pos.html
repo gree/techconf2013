@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Absolute Positioning</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    div {
+      margin: 0;
+      padding: 0;
+      border: none;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+    }
+
+    #container {
+      margin: 0;
+      padding: 0;
+      position: fixed;
+      border: none;
+      overflow: hidden;
+    }
+  </style>
+  <script>//<![CDATA[
+
+    var mAnimationIterations = 30;
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      // Stupid chrome bug.
+      // Iframes dont set innerWidth correctly on load...
+      // Need to wait...
+      function wait() {
+        if (window.innerWidth > 0) {
+          go();
+        } else {
+          setTimeout(wait, 100);
+        }
+      }
+
+      wait();
+
+      function go() {
+        var tContainer = document.getElementById('container');
+
+        var tFragment = document.createDocumentFragment();
+        var tElement;
+        var tNumber = 1500;
+        var tWidth = window.innerWidth + 0.0;
+        var tHeight = window.innerHeight + 0.0;
+        var tElements = new Array(tNumber);
+        var tAnimationIterations = mAnimationIterations;
+
+        var tMode = location.search;
+
+        tContainer.style.width = tWidth + 'px';
+        tContainer.style.height = tHeight + 'px';
+
+        var moveElement = (function() {
+          switch (tMode) {
+            case '?worst':
+              return function(pElement) {
+                pElement.style.left = (Math.random() * tWidth) + 'px';
+                pElement.style.top = (Math.random() * tHeight) + 'px';
+              }
+            case '?bad':
+              return function(pElement) {
+                pElement.style.webkitTransform = 'matrix(1,0,0,1,' + (Math.random() * tWidth) + ',' + (Math.random() * tHeight) + ')';
+              }
+            case '?notgood':
+              return function(pElement) {
+                pElement.style.webkitTransform = 'translate(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px)';
+              }
+            case '?good':
+              return function(pElement) {
+                pElement.style.webkitTransform = 'matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,' + (Math.random() * tWidth) + ',' + (Math.random() * tHeight) + ',0,1)';
+              }
+            case '?best':
+            default:
+              return function(pElement) {
+                pElement.style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
+              }
+          }
+        }());
+
+        for (var i = 0; i < tNumber; i++) {
+          tElement = document.createElement('div');
+
+          tElement.style.backgroundColor = 'rgb(' +
+            (Math.random() * 255 | 0) + ',' +
+            (Math.random() * 255 | 0) + ',' +
+            (Math.random() * 255 | 0) + ')';
+
+          //moveElement(tElement);
+          //tElement.style.left = '1px';
+          //tElement.style.top = '1px';
+          tElement.style.webkitTransform = 'translate(1px,1px)';
+
+          tElements[i] = tElement;
+          tFragment.appendChild(tElement);
+        }
+
+        tContainer.appendChild(tFragment);
+
+        document.addEventListener('click', function() {
+          var tStartTime = performance.now();
+
+          function move() {
+            var tGElements = tElements;
+            var tTime = 0.0;
+
+            for (var i = 0, il = tNumber; i < il; i++) {
+              //moveElement(tGElements[i]);
+              tGElements[i].style.webkitTransform = 'translate(1px,1px)';
+              //tGElements[i].style.left = '1px';
+              //tGElements[i].style.top = '1px';
+            }
+
+            if (--tAnimationIterations > 0) {
+              setTimeout(move, 0);
+            } else {
+              tAnimationIterations = mAnimationIterations;
+              tTime = performance.now() - tStartTime;
+              alert((tTime / tAnimationIterations < (1000.0 / 30.0) ? 'NO LAG: ' : 'LAG: ') + (tTime) + 'ms');
+            }
+          }
+
+          move();
+        }, false);
+      }
+    }, false);
+
+  //]]></script>
+</head>
+<body>
+  <div id="container"></div>
+</body>
+</html>

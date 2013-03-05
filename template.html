@@ -191,45 +191,253 @@ URL: https://code.google.com/p/io-2012-slides
     </article>
   </slide>
 
-  <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>Point I wanted to make #1</li>
-          <li>Point I wanted to make #2</li>
-          <li>Point I wanted to make #3</li>
-          <li>Example <a href="#">link</a> in notes.</li>
-        </ul>
-        <p><b>Remember to say this tag line!</b></p>
-      </section>
-    </aside>
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Layout</h2>
+      <h3>In other words, reflow</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
     <hgroup>
-      <h2>Slide with Speaker Notes</h2>
+      <h2>Layout</h2>
+      <h3>What is it?</h3>
     </hgroup>
     <article>
-      <p>Press 'p' to toggle speaker notes.</p>
+      <ul class="build">
+        <li>When the position and size of all objects is calculated</li>
+        <li>No easy to read single algorithm for 'layout'</li>
+        <li>Instead there are layout models that have their own algorithms</li>
+        <li>They are all messy and hidden inside of the CSS2 specification
+          <ul>
+            <li><a href="http://www.w3.org/TR/CSS2/visudet.html">http://www.w3.org/TR/CSS2/visudet.html</a></li>
+            <li>Yes, there is a CSS3 Positioning Module. But nobody implements it?</li>
+          </ul>
+        </li>
+        <li>There are extentions adding new layout models that are very clear and easy to understand.
+          <ul>
+            <li><a href="http://www.w3.org/TR/css3-flexbox/">Flexbox</a> (http://www.w3.org/TR/css3-flexbox/)</li>
+            <li><a href="http://www.w3.org/TR/css3-multicol/">Multi-column</a> (http://www.w3.org/TR/css3-multicol/)</li>
+            <li><a href="http://www.w3.org/TR/css3-grid-layout/">Grid</a> (http://www.w3.org/TR/css3-grid-layout/)</li>
+          </ul>
+        </li>
+      </ul>
     </article>
   </slide>
 
-  <slide>
-    <aside class="note">
-      <section>
-        <ul>
-          <li>See this amazing link: <a href="http://www.google.com">link</a>.</li>
-        </ul>
-        <p><b>Remember to say this tag line!</b></p>
-      </section>
-    </aside>
+  <slide class="">
     <hgroup>
-      <h2>Presenter Mode</h2>
+      <h2>Layout</h2>
+      <h3>Why do we care?</h3>
     </hgroup>
     <article>
-      <p>Add <code><a href="?presentme=true" target="_self">?presentme=true</a></code> to the URL to enabled presenter mode.
-      This setting is sticky, meaning refreshing the page will persist presenter
-      mode.</p>
-      <p>Hit <code><a href="?presentme=false" target="_self">?presentme=false</a></code> to disable presenter mode.</p>
+      <ul>
+        <li>Load up your average web page and count the number of DOM objects that exist inside it</li>
+        <li>Yahoo.co.jp had 2153 nodes (text and elements)</li>
+        <li>That's a lot of things calculate and we want to make this process as fast as possible</li>
+      </ul>
     </article>
   </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Layout</h2>
+      <h3>How Positioning Works</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>How Positioning Works</h2>
+      <h3>Types of Positioning</h3>
+    </hgroup>
+    <article>
+      <p>Since new things like flexbox is still very new, we will ignore them. Here is what we will look at:</p>
+      <ul class="build">
+        <li>Normal Flow
+          <ul>
+            <li>position: static</li>
+            <li>position: relative</li>
+          </ul>
+        </li>
+        <li>Floating (float: left/right)</li>
+        <li>Absolute
+          <ul>
+            <li>position: absolute</li>
+            <li>position: fixed</li>
+          </ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Normal Flow</h2>
+      <h3>Static</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>The simplest</li>
+        <li>Create boxes for containers (like div)</li>
+        <li>Flow the boxes vertically, one box per row</li>
+        <li>Flow content (line-boxes) horizontally inside boxes
+          <ul>
+            <li><aside>Calculating the size of content is semi-complex, but not important for this session</aside></li>
+          </ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Normal Flow</h2>
+      <h3>Relative</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Allows you to move the position of an element by an amount relative to it's normal position</li>
+        <li><b>All</b> relative layouts first run the static normal flow layout algorithm</li>
+        <li>Therefore relative is slower than static (slightly)</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Floating</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Positions elements on the left or right side of another float element or the current block container</li>
+        <li>Removes the element from normal flow, meaning other normal flow elements are unaffected by floating elements</li>
+        <li>Very difficult to plan and understand</li>
+        <li>Can be slow or fast
+          <ul>
+            <li>Mixing with non-float elements can be a little heavy on layout</li>
+            <li>If overflow is something other than hidden, a strange float could cause other elements to overflow causing the scrollbar to appear in turn causing more position calculations</li>
+          </ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Absolute</h2>
+      <h3>Absolute absolute</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Positions elements relative to the current containing block, in CSS units, to an exact location
+          <ul class="build">
+            <li>Containing block is the viewport, an element with position not equal to static</li>
+          </ul>
+        </li>
+        <li>Messy if not managed properly</li>
+        <li>Layout is <b>fast</b></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Absolute</h2>
+      <h3>Fixed absolute</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>A subclass of regular absolute</li>
+        <li>Always positions elements relative to the viewport (screen)</li>
+        <li>Since we are relative to something that never changes, scrolling never happens</li>
+        <li>In other words, layout is <b>very</b> fast</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Layout</h2>
+      <h3>Positioning Tips</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Order of Speed</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Fixed > absolute > static > relative > float</li>
+        <li>However float <b>can</b> be faster or slower depending on the situation</li>
+        <li>The further you go down in to the DOM tree, the slower static, relative and float get</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Relative Positioning Evil</h2>
+    </hgroup>
+    <article class="small">
+      <ul>
+        <li>Don't use position:relative if you don't need to</li>
+        <li>It just creates new containing blocks that just use up resources</li>
+      </ul>
+      <pre data-lang="css">
+        div { position: relative; }
+        .moveable_class { position: absolute; !important }
+      </pre>
+      <pre class="prettyprint" data-lang="html">
+        &lt;div&gt;Hello&lt;/div&gt;
+        &lt;div&gt;world!&lt;/div&gt;
+        &lt;div&gt;How are you today?&lt;/div&gt;
+        <b>&lt;div&gt;
+          &lt;div class="moveable_class" style="left: 34px; top: 50px"&gt;Dandy&lt;/div&gt;
+        &lt;/div&gt;</b>
+        &lt;div&gt;:)&lt;/div&gt;
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Clipping is evil</h2>
+    </hgroup>
+    <article>
+
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Layout</h2>
+      <h3>Pure CSS Tips</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="" hidden>
+    <hgroup>
+      <h2>Moving Elements</h2>
+    </hgroup>
+    <article>
+      <iframe src="sample_absolute_pos.html?best"></iframe>
+    </article>
+  </slide>
+
+
+
+
+
 
   <slide class="thank-you-slide segue nobackground">
     <aside class="gdbar right"><img src="images/gree_logo_small.png"></aside>

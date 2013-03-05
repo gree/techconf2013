@@ -175,7 +175,7 @@ slides > slide {
 
     &:before {
       font-size: 11pt;
-      content: $social-tags '\00A0\00A0\00A0\00A0' $footer-text;
+      content: $footer-text;
       position: absolute;
       color: $brand-white;
       bottom: 12px;

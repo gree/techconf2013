@@ -1,7 +1,36 @@
 
 * style recalculation
+* developer tools for profiling
 * layout calculation
-** JavaScript
+** JavaScript and layouts
+** documentfragments
+** getting styles and layouts
 * painting
 * compositing.
+* GPU mode.
+* drawImage
 * setTimeout vs requestAnimationFrame
+
+
+
+
+
+
+
+layout:
+!* dont use position:relative constantly
+!* fixed > absolute > static > relative > float
+!* floats kill static and relative by resizing them.
+* :after and :before content vs normal dom
+* using offsetTop and such mixed with a parent with position != static. It doubles the effect of relative's weaknesses
+* offsetWidth/Height calculates children constantly.
+* insert new elements AFTER changing all attributes and styles.
+* If you are just moving objects around in absolute space, do NOT remove the parent and readd it after. It is actually slower due to repaint.
+* Fastest way to move elements: in a fixed layout, transform translate3d with absoluted positioning.
+* translate3d > matrix3d > translate > matrix > left/top (sometimes)
+
+DocumentFragment:
+* Avoid all reflow and layout until added to document OR accessing internal values.
+* ALL css computed values are unusable (no calculations at all. very fast)
+** Try it out with window.getComputedStyle
+** Or child.offsetWidth and such
