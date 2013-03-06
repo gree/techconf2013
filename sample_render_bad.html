@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sample Render Bad</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #container {
+      margin: 0;
+      padding: 0;
+      border: none;
+      /*overflow: hidden;*/
+    }
+  </style>
+
+  <script>//<![CDATA[
+    document.addEventListener('DOMContentLoaded', function() {
+
+      var mNumOfParents = 50;
+      var mNumOfChildren = 50;
+      var mNumOfChildChildren = 10;
+
+      // Stupid chrome bug.
+      // Iframes dont set innerWidth correctly on load...
+      // Need to wait...
+      function wait() {
+        if (window.innerWidth > 0) {
+          go();
+        } else {
+          setTimeout(wait, 100);
+        }
+      }
+
+      wait();
+
+      var mContainer = document.getElementById('container');
+
+      function render() {
+        mContainer.innerHTML = '';
+        mContainer.offsetWidth; // Force reflow.
+
+        var tStartTime = performance.now();
+
+        var tParent, tChild, tChildChild;
+        var i, j, k;
+
+        for (i = 0; i < mNumOfParents; i++) {
+          tParent = document.createElement('div');
+
+          mContainer.appendChild(tParent);
+
+          tParent.style.width = (i * 10) + 'px';
+          tParent.style.backgroundColor = 'rgb(' +
+            ((i / mNumOfParents) * 255 | 0) + ',' +
+            ((i / mNumOfParents) * 200 | 0) + ',' +
+            ((i / mNumOfParents) * 155 | 0) + ')';
+
+          for (j = 0; j < mNumOfChildren; j++) {
+            tChild = document.createElement('div');
+
+            tParent.appendChild(tChild);
+
+            tChild.style.width = (j * 10) + 'px';
+            tChild.style.backgroundColor = 'rgb(' +
+              ((j / mNumOfChildren) * 200 | 0) + ',' +
+              ((j / mNumOfChildren) * 255 | 0) + ',' +
+              ((j / mNumOfChildren) * 155 | 0) + ')';
+
+            for (k = 0; k < mNumOfChildChildren; k++) {
+              tChildChild = document.createElement('div');
+
+              tChild.appendChild(tChildChild);
+
+              tChildChild.style.width = (k * 10) + 'px';
+              tChildChild.style.height = '1px';
+              tChildChild.style.backgroundColor = 'rgb(' +
+                ((k / mNumOfChildChildren) * 200 | 0) + ',' +
+                ((k / mNumOfChildChildren) * 155 | 0) + ',' +
+                ((k / mNumOfChildChildren) * 255 | 0) + ')';
+            }
+          }
+        }
+
+        var tTime = performance.now() - tStartTime;
+
+        alert('BAD: ' + tTime + 'ms');
+      }
+
+      function go() {
+        var tWidth = window.innerWidth;
+        var tHeight = window.innerHeight;
+
+        mContainer.style.width = tWidth + 'px';
+        mContainer.style.height = tHeight + 'px';
+
+        document.addEventListener('click', render, false);
+      }
+
+    }, false);
+  //]]></script>
+</head>
+<body>
+  <div id="container"></div>
+</body>
+</html>

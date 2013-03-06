@@ -44,16 +44,19 @@
 
 @mixin flexbox {
   display: -webkit-flex !important;
+  display: -moz-flex !important;
   display: flex !important;
 }
 
 @mixin flex-flow($direction: row, $wrap: nowrap) {
   -webkit-flex-flow: $direction $wrap;
+  -moz-flex-flow: $direction $wrap;
   flex-flow: $direction $wrap;
 }
 
 @mixin flex($arg1: 1, $arg2: 1, $arg3: auto) {
   -webkit-flex: $arg1 $arg2 $arg3;
+  -moz-flex: $arg1 $arg2 $arg3;
   flex: $arg1 $arg2 $arg3;
 }
 

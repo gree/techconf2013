@@ -406,17 +406,247 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide class="">
     <hgroup>
-      <h2>Clipping is evil</h2>
+      <h2>Floating Evil</h2>
     </hgroup>
     <article>
+      <ul class="build">
+        <li>Floating itself is not all that slow</li>
+        <li>However it's terribly difficult to read and understand</li>
+        <li>As a personal request, don't use it</li>
+        <li>^_^</li>
+      </ul>
+    </article>
+  </slide>
 
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Layout</h2>
+      <h3>With JavaScript</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>JavaScript is Scary</h2>
+    </hgroup>
+    <article class="build">
+      <ul class="build">
+        <li>First of all, I love JavaScript</li>
+        <li>I allows you to do really cool stuff <b>when you know what you're doing</b></li>
+        <li>However, the language allows you to do something evil</li>
+      </ul>
+      <pre class="prettyprint smaller" data-lang="javascript">
+        function HTMLHtmlElement() {
+          Object.defineProperty(this, 'offsetWidth', {
+            <b>get: function() {
+              // Calculate all child elements' positions and sizes!
+            },</b>
+            configurable: false,
+            enumerable: true
+          });
+        }
+
+        var element = new HTMLHtmlElement();
+        for (var i = 0; i &lt; 10000; i++) { console.log(element.offsetWidth) }
+      </pre>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Offset and Client Properties</h2>
+      <h3>Question</h3>
+    </hgroup>
+    <article>
+      <div class="columns">
+        <ul>
+          <li>offsetTop</li>
+          <li>offsetLeft</li>
+          <li>offsetWidth</li>
+          <li>offsetHeight</li>
+        </ul>
+        <ul>
+          <li>clientTop</li>
+          <li>clientLeft</li>
+          <li>clientWidth</li>
+          <li>clientHeight</li>
+        </ul>
+      </div>
+      <p>Which of the above properties cause a lot of calculations do happen in the background?</p>
+      <a style="font-size:.7em" href="http://www.w3.org/TR/cssom-view/">http://www.w3.org/TR/cssom-view/</a>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Offset and Client Properties</h2>
+      <h3>Answer</h3>
+    </hgroup>
+    <article>
+      <p>All of them</p>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Offset and Client Properties</h2>
+    </hgroup>
+    <article>
+      <p>These properties all calculate their own size (padding edge or border edge).</p>
+      <p>In order to do this, all of their children's sizes must also be calculated.</p>
+      <p>Sadly, this is a very heavy process</p>
+      <br>
+      <p>How heavy?</p>
+    </article>
+  </slide>
+
+  <slide class="">
+    <article class="box vcenter">
+      <a style="font-size:2em" href="http://jsperf.com/offsetwidth">http://jsperf.com/offsetwidth</a>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Offset and Client Properties</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>If you know the value won't change, cache it and use it</li>
+        <li>If you access them in the middle of changing other properties, it is possible to force a reflow</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Inserting Elements Via the DOM</h2>
+    </hgroup>
+    <article class="build">
+      <ul>
+        <li>A common thing to do since the DHTML days</li>
+      </ul>
+      <pre class="prettyprint" data-lang="javascript">
+        var element, body = document.body;
+        for (var i = 0; i &lt; 500; i++) {
+          element = document.createElement('div');
+          body.appendChild(element);
+          element.style.width = element.style.height = '40px';
+        }
+      </pre>
+      <ul class="build">
+        <li>There are a couple things you should <b>not</b> do here</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Inserting Elements Via the DOM</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="javascript">
+        var element, body = document.body;
+        <b>var fragment = document.createDocumentFragment();</b>
+        for (var i = 0; i &lt; 500; i++) {
+          element = document.createElement('div');
+          <b>element.style.width = element.style.height = '40px';</b>
+          <b>fragment.appendChild(element);</b>
+        }
+        <b>body.appendChild(fragment);</b>
+      </pre>
+      <ul class="build">
+        <li>Edit all properties <b>before</b> calling appendChild</li>
+        <li>Use a DocumentFragment (<a href="http://dom.spec.whatwg.org/#interface-documentfragment">http://dom.spec.whatwg.org/#interface-documentfragment</a>)</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>DocumentFragment</h2>
+      <h3>Some interesting facts</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>They used to be <b>way</b> faster than anything else</li>
+        <li>With recent optimizations in browsers, they are roughly the same speed as the normal appendChild</li>
+        <li>Any element inside a DocumentFragment has no layout box
+          <ul>
+            <li>This means almost all values in CSS are <b>uninitialized or 0</b>
+              <ul>
+                <li>Try it out with window.getComputedStyle!</li>
+              </ul>
+            </li>
+            <li>However that is exactly why they are so fast</li>
+            <li>Impossible to make a reflow or paint happen with a DocumentFragment</li>
+          </ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>The Remove/Re-add Node to Edit Myth</h2>
+    </hgroup>
+    <article>
+      <p>There are many articles on the Internet saying that it is faster to remove the group of nodes you are about to edit from the DOM tree (removeChild), edit all the nodes (avoiding reflow), and re-insert them back in to the same place in the DOM tree.</p>
+      <ul class="build">
+        <li>This used to be true</li>
+        <li>It is now <b>false</b> in all situations that <b>I have personally tested</b></li>
+        <li>Browsers are optimized so that they are smart about when reflows fire</li>
+        <li>Now-a-days, the browser will get <b>slower</b> due to a <b>paint</b> that occurs from re-adding the nodes</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Layout</h2>
+      <h3>Results with a demo</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Results</h2>
+    </hgroup>
+    <article>
+      <p>Let's take most of what we learned and see how awesomely fast we can make a page go</p>
+      <ul class="build">
+        <li>But first, a final tip...</li>
+        <li>In a game, we often want to move things a lot in large numbers</li>
+        <li>The best way that I know of is...</li>
+        <li>
+          <ul class="build">
+            <li>Create a container that uses position:fixed</li>
+            <li>Add the elements you want to move to that container using position: absolute</li>
+            <li>Position and move them using transform: translate3d(x, y, z)</li>
+          </ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <article class="columns">
+      <div>
+        <h3>Slow techniques</h3>
+        <iframe src="sample_render_bad.html"></iframe>
+      </div>
+      <div>
+        <h3>Fast techniques</h3>
+        <iframe src="sample_render_good.html"></iframe>
+      </div>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
       <h2>Layout</h2>
-      <h3>Pure CSS Tips</h3>
     </hgroup>
     <article>
       <ul class="build">
@@ -425,14 +655,84 @@ URL: https://code.google.com/p/io-2012-slides
     </article>
   </slide>
 
-  <slide class="" hidden>
+  <slide class="">
     <hgroup>
-      <h2>Moving Elements</h2>
+      <h2>Layout</h2>
     </hgroup>
     <article>
-      <iframe src="sample_absolute_pos.html?best"></iframe>
+      <ul class="build">
+        <li></li>
+      </ul>
     </article>
   </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Layout</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Layout</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Layout</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Layout</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Layout</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Layout</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li></li>
+      </ul>
+    </article>
+  </slide>
+
+
 
 
 

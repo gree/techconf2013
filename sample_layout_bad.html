@@ -13,14 +13,13 @@
       padding: 0;
       border: none;
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 10px;
+      height: 10px;
     }
 
     #container {
       margin: 0;
       padding: 0;
-      position: fixed;
       border: none;
       overflow: hidden;
     }
@@ -47,7 +46,6 @@
       function go() {
         var tContainer = document.getElementById('container');
 
-        var tFragment = document.createDocumentFragment();
         var tElement;
         var tNumber = 1500;
         var tWidth = window.innerWidth + 0.0;
@@ -55,56 +53,24 @@
         var tElements = new Array(tNumber);
         var tAnimationIterations = mAnimationIterations;
 
-        var tMode = location.search;
-
         tContainer.style.width = tWidth + 'px';
         tContainer.style.height = tHeight + 'px';
 
-        var moveElement = (function() {
-          switch (tMode) {
-            case '?worst':
-              return function(pElement) {
-                pElement.style.left = (Math.random() * tWidth) + 'px';
-                pElement.style.top = (Math.random() * tHeight) + 'px';
-              }
-            case '?bad':
-              return function(pElement) {
-                pElement.style.webkitTransform = 'matrix(1,0,0,1,' + (Math.random() * tWidth) + ',' + (Math.random() * tHeight) + ')';
-              }
-            case '?notgood':
-              return function(pElement) {
-                pElement.style.webkitTransform = 'translate(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px)';
-              }
-            case '?good':
-              return function(pElement) {
-                pElement.style.webkitTransform = 'matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,' + (Math.random() * tWidth) + ',' + (Math.random() * tHeight) + ',0,1)';
-              }
-            case '?best':
-            default:
-              return function(pElement) {
-                pElement.style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
-              }
-          }
-        }());
-
         for (var i = 0; i < tNumber; i++) {
           tElement = document.createElement('div');
+
+          tElements[i] = tElement;
+          tContainer.appendChild(tElement);
 
           tElement.style.backgroundColor = 'rgb(' +
             (Math.random() * 255 | 0) + ',' +
             (Math.random() * 255 | 0) + ',' +
             (Math.random() * 255 | 0) + ')';
 
-          //moveElement(tElement);
-          //tElement.style.left = '1px';
-          //tElement.style.top = '1px';
-          tElement.style.webkitTransform = 'translate(1px,1px)';
-
-          tElements[i] = tElement;
-          tFragment.appendChild(tElement);
+          tElement.style.left = (Math.random() * tWidth) + 'px';
+          tElement.style.top = (Math.random() * tHeight) + 'px';
+          //tElement.style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
         }
-
-        tContainer.appendChild(tFragment);
 
         document.addEventListener('click', function() {
           var tStartTime = performance.now();
@@ -114,10 +80,9 @@
             var tTime = 0.0;
 
             for (var i = 0, il = tNumber; i < il; i++) {
-              //moveElement(tGElements[i]);
-              tGElements[i].style.webkitTransform = 'translate(1px,1px)';
-              //tGElements[i].style.left = '1px';
-              //tGElements[i].style.top = '1px';
+              //tGElements[i].style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
+              tGElements[i].style.left = (Math.random() * tWidth) + 'px';
+              tGElements[i].style.top = (Math.random() * tHeight) + 'px';
             }
 
             if (--tAnimationIterations > 0) {
@@ -125,7 +90,7 @@
             } else {
               tAnimationIterations = mAnimationIterations;
               tTime = performance.now() - tStartTime;
-              alert((tTime / tAnimationIterations < (1000.0 / 30.0) ? 'NO LAG: ' : 'LAG: ') + (tTime) + 'ms');
+              alert('Bad Page: ' + (tTime / tAnimationIterations < (1000.0 / 30.0) ? 'NO LAG: ' : 'LAG: ') + (tTime) + 'ms');
             }
           }
 
