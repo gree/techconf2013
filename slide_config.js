@@ -2,7 +2,7 @@ var SLIDE_CONFIG = {
   // Slide settings
   settings: {
     title: 'HTML with JavaScript<br>Performance',
-    subtitle: 'Rendering, Layout, Animation and Perceived Speed',
+    subtitle: 'Rendering, Layout and Animation',
     useBuilds: true, // Default: true. False will turn off slide animation builds.
     usePrettify: true, // Default: true
     enableSlideAreas: false, // Default: true. False turns off the click areas on either slide of the slides.

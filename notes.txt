@@ -33,3 +33,42 @@ layout:
 !* ALL css computed values are unusable (no calculations at all. very fast)
 !** Try it out with window.getComputedStyle
 !** Or child.offsetWidth and such
+
+
+LAYOUT
+<ul class="build">
+<li>Fixed > absolute > static > relative > float</li>
+        <li><b>Remember</b> JavaScript properties can do a lot of work <b>just by accessing them</b></li>
+        <li><b>Cache</b> computed values (offset/client properties) if possible</li>
+        <li><b>Use</b> DocumentFragment</li>
+        <li><b>Do not use</b> the Remove/Re-add Rule in GPU mode</li>
+        <li>Edit element properties <b>before</b> adding them to the DOM tree</li>
+      </ul>
+
+
+PAINTING
+<ul class="build">
+        <li>Painting is difficult to optimize</li>
+        <li>Check the developer tools timeline feature</li>
+        <li>Avoid shadow related CSS</li>
+      </ul>
+
+COMPOSITING
+<ul class="build">
+        <li><b>Use</b> GPU mode if possible</li>
+        <li><b>Imagine</b> all objects are textures</li>
+        <li><b>Test</b> for devices that have bugs in GPU mode</li>
+        <li><b>Do not use</b> the Remove/Re-add Rule in GPU mode</li>
+        <li><b>Be careful</b> about memory usage</li>
+        <li><b>Remember</b> that textures are <b>destroyed</b> when their element is removed from  the DOM</li>
+      </ul>
+
+Canvas
+<ul class="build">
+        <li>Modern Canvas is <b>actually 3D</b></li>
+        <li>Uses GPU mode</li>
+        <li>Transforming paths and images is very fast</li>
+        <li>Drawing raw paths is <b>not as fast</b> as <b>drawImage</b></li>
+        <li><b>Always</b> use drawImage for everything</li>
+        <li>Browsers are getting <b>smarter</b> and <b>faster</b> every day</li>
+      </ul>

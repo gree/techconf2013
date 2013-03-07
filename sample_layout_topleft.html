@@ -69,7 +69,6 @@
 
           tElement.style.left = (Math.random() * tWidth) + 'px';
           tElement.style.top = (Math.random() * tHeight) + 'px';
-          //tElement.style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
         }
 
         document.addEventListener('click', function() {
@@ -80,7 +79,6 @@
             var tTime = 0.0;
 
             for (var i = 0, il = tNumber; i < il; i++) {
-              //tGElements[i].style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
               tGElements[i].style.left = (Math.random() * tWidth) + 'px';
               tGElements[i].style.top = (Math.random() * tHeight) + 'px';
             }
@@ -90,7 +88,7 @@
             } else {
               tAnimationIterations = mAnimationIterations;
               tTime = performance.now() - tStartTime;
-              alert('Bad Page: ' + (tTime / tAnimationIterations < (1000.0 / 30.0) ? 'NO LAG: ' : 'LAG: ') + (tTime) + 'ms');
+              alert('Time: ' + tTime + 'ms');
             }
           }
 

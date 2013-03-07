@@ -44,24 +44,6 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
   </slide>
 
-  <slide>
-    <hgroup>
-      <h2>Schedule</h2>
-    </hgroup>
-    <article>
-      <ul>
-        <li></li>
-        <li>Title capitalization is title case
-          <ul>
-            <li>Subtitle capitalization is title case</li>
-          </ul>
-        </li>
-        <li>Subtitle capitalization is title case</li>
-        <li>Titles and subtitles should never have a period at the end</li>
-      </ul>
-    </article>
-  </slide>
-
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
@@ -94,18 +76,10 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
     <article>
       <ul class="build">
-        <li>This definition is far too general.</li>
-        <li>Obviously, we will focus on this definition...</li>
+        <li>Too general</li>
+        <li>Let's focus on this definition...</li>
       </ul>
     </article>
-  </slide>
-
-  <slide class="segue dark nobackground">
-    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
-    <hgroup class="auto-fadein">
-      <h2>Performance</h2>
-      <h3>Displaying a web page with speed</h3>
-    </hgroup>
   </slide>
 
   <slide>
@@ -120,13 +94,13 @@ URL: https://code.google.com/p/io-2012-slides
 
         var performance = doingSomething + ' with _adjective_' + result;
 
-        function displayPerformance(adjective) {
+        function performanceDefinition(adjective) {
           console.log(
             performance.replace(/_adjective_/g, adjective ? adjective + ' ' : '')
           );
         }
 
-        displayPerformance();
+        performanceDefinition();
         <span data-highlight>// &gt; "Displaying a web page with speed"</span>
       </pre>
     </article>
@@ -145,7 +119,7 @@ URL: https://code.google.com/p/io-2012-slides
         ];
 
         for (i = 0, il = types.length; i &lt; il; i++) {
-          displayPerformance(types[i]);
+          performanceDefinition(types[i]);
         }
 
         <span data-highlight>// &gt; "Displaying a web page with awesome speed"</span>
@@ -169,7 +143,7 @@ URL: https://code.google.com/p/io-2012-slides
       <h2>Types of Performance on the Web</h2>
     </hgroup>
     <article>
-      <p>There are several types of performance that we could look at.</p>
+      <p>Several types of performance that we could look at.</p>
       <div class="columns">
         <ul class="build">
           <h3>HTML</h3>
@@ -177,7 +151,7 @@ URL: https://code.google.com/p/io-2012-slides
           <li>Resource</li>
           <li>Parsing</li>
           <li data-highlight>Layout</li>
-          <li data-highlight>Paint</li>
+          <li data-highlight>Painting</li>
           <li data-highlight>Compositing</li>
         </ul>
         <ul class="build">
@@ -396,9 +370,9 @@ URL: https://code.google.com/p/io-2012-slides
         &lt;div&gt;Hello&lt;/div&gt;
         &lt;div&gt;world!&lt;/div&gt;
         &lt;div&gt;How are you today?&lt;/div&gt;
-        <b>&lt;div&gt;
-          &lt;div class="moveable_class" style="left: 34px; top: 50px"&gt;Dandy&lt;/div&gt;
-        &lt;/div&gt;</b>
+        <b>&lt;div&gt;</b>
+          <b>&lt;div class="moveable_class" style="left: 34px; top: 50px"&gt;Dandy&lt;/div&gt;</b>
+        <b>&lt;/div&gt;</b>
         &lt;div&gt;:)&lt;/div&gt;
       </pre>
     </article>
@@ -589,15 +563,21 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide class="">
     <hgroup>
-      <h2>The Remove/Re-add Node to Edit Myth</h2>
+      <h2>The Remove/Re-add Rule</h2>
     </hgroup>
     <article>
       <p>There are many articles on the Internet saying that it is faster to remove the group of nodes you are about to edit from the DOM tree (removeChild), edit all the nodes (avoiding reflow), and re-insert them back in to the same place in the DOM tree.</p>
       <ul class="build">
-        <li>This used to be true</li>
-        <li>It is now <b>false</b> in all situations that <b>I have personally tested</b></li>
+        <li>This used to be true and still is in some cases</li>
+        <li>It is now <b>false</b> in all situations that <b>I have personally tested</b> that <b>use GPU mode for rendering</b>
+          <ul>
+            <li>Like transform: translate3d(x,y,z)</li>
+            <li>Possibly in the future <b>everything</b></li>
+            <li>Now-a-days, the browser will get <b>slower</b> due to a <b>paint</b> that occurs from re-adding the nodes</li>
+          </ul>
+        </li>
         <li>Browsers are optimized so that they are smart about when reflows fire</li>
-        <li>Now-a-days, the browser will get <b>slower</b> due to a <b>paint</b> that occurs from re-adding the nodes</li>
+        <li>Meaning we don't need to worry about this as much as before, but in some cases is good to use</li>
       </ul>
     </article>
   </slide>
@@ -606,25 +586,151 @@ URL: https://code.google.com/p/io-2012-slides
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
       <h2>Layout</h2>
-      <h3>Results with a demo</h3>
+      <h3>Results</h3>
     </hgroup>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Results</h2>
+      <h2>Layout</h2>
+      <h3>Results</h3>
     </hgroup>
     <article>
-      <p>Let's take most of what we learned and see how awesomely fast we can make a page go</p>
       <ul class="build">
-        <li>But first, a final tip...</li>
-        <li>In a game, we often want to move things a lot in large numbers</li>
-        <li>The best way that I know of is...</li>
-        <li>
-          <ul class="build">
-            <li>Create a container that uses position:fixed</li>
-            <li>Add the elements you want to move to that container using position: absolute</li>
-            <li>Position and move them using transform: translate3d(x, y, z)</li>
+        <li>Fixed > absolute > static > relative > float</li>
+        <li><b>Remember</b> JavaScript properties can do a lot of work <b>just by accessing them</b></li>
+        <li><b>Cache</b> computed values (offset/client properties) if possible</li>
+        <li>Edit element properties <b>before</b> adding them to the DOM tree</li>
+        <li><b>Use</b> DocumentFragment</li>
+        <li><b>Do not use</b> the Remove/Re-add Rule in GPU mode</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Painting</h2>
+      <h3>How the browser draws</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Painting</h2>
+      <h3>What is is?</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>After the layout of elements, the browser needs to <b>draw</b> them to the screen</li>
+        <li>In Chrome/WebKit world this is called painting</li>
+        <li>The browser will calculate what elements are visible in the viewport and draw them</li>
+        <li>Painting methods (and performance) change drastically from platform to platform and browser to browser</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Painting</h2>
+      <h3>When it happens</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>When the page is viewed (loads) the first time</li>
+        <li>When you scroll the page</li>
+        <li>When you hide an element and re-show it again
+          <ul>
+            <li>This is the problem when you use the Remove/Re-add Rule</li>
+          </ul>
+        </li>
+        <li>When visual properties of an element changes</li>
+        <li>Possibily when a decendant (or possibly ancestor) element changes</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Painting</h2>
+      <h3>Seeing when it happens</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>In Chrome, open up the developer tools</li>
+        <li>Switch to the <b>Timeline</b> panel</li>
+        <li>Hit the record button at the bottom</li>
+        <li>Play with your web site</li>
+        <li>Return to the developer tools and hit the record button again to stop recording</li>
+        <li>Look at the data!</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <article>
+      <iframe src="sample_layout_topleft.html"></iframe>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Painting</h2>
+      <h3>Some fun</h3>
+    </hgroup>
+    <article style="font-size:0.7em;">
+      <p>Let's see what happens when we try out the Remove/Re-add Rule!</p>
+    </article>
+  </slide>
+
+  <slide class="">
+    <article>
+      <iframe src="sample_layout_halfmyth_lefttop.html"></iframe>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Painting</h2>
+      <h3>Results</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Painting</h2>
+      <h3>Results</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Painting is difficult to optimize</li>
+        <li>Check the developer tools timeline feature</li>
+        <li>Avoid shadow related CSS</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Compositing</h2>
+      <h3>Mixing everything together</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Compositing</h2>
+      <h3>What is it?</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>When the browser takes painted elements and mixes them in the correct order for you to view</li>
+        <li>Mostly a GPU thing</li>
+        <li>Looks at information like z-index, transform's Z properties, opacity and layout layers
+          <ul>
+            <li>Like the different types of positions and DOM order</li>
           </ul>
         </li>
       </ul>
@@ -632,112 +738,345 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
-    <article class="columns">
-      <div>
-        <h3>Slow techniques</h3>
-        <iframe src="sample_render_bad.html"></iframe>
-      </div>
-      <div>
-        <h3>Fast techniques</h3>
-        <iframe src="sample_render_good.html"></iframe>
-      </div>
+    <hgroup>
+      <h2>Compositing</h2>
+      <h3>When it happens</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Whenever a paint happens</li>
+        <li>When position-related properties only change on an element
+          <ul>
+            <li>In this case, no painting will occur (in GPU mode)</li>
+          </ul>
+        </li>
+      </ul>
     </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Compositing</h2>
+      <h3>GPU mode</h3>
+    </hgroup>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>GPU mode</h2>
+      <h3>What is it?</h3>
     </hgroup>
     <article>
       <ul class="build">
-        <li></li>
+        <li>A method the browser uses to render everything to the screen</li>
+        <li>Uses 3D APIs (OpenGL, DirectX, etc) for <b>everything</b></li>
+        <li>3D API's <b>need</b> to only work with polygons, points and textures
+          <ul>
+            <li>Ok, so shaders are there too, but we will ignore those as things will get too complex</li>
+          </ul>
+        </li>
+        <li>In GPU mode, browsers translate a web page in to a 3D scene!</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>GPU mode</h2>
+      <h3>When is it used?</h3>
     </hgroup>
     <article>
       <ul class="build">
-        <li></li>
+        <li>Whenever a 3D related CSS property is used</li>
+        <li>Whenever you use HTML Canvas in a modern browser</li>
+        <li>Depending on platform and browser flags, <b>always</b></li>
+        <li>In the future, probably always!</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>GPU mode</h2>
+      <h3>So?</h3>
     </hgroup>
     <article>
       <ul class="build">
-        <li></li>
+        <li>So all we care about in this session is that in GPU mode, every element ends up as at least a single rectangle (polygon) with a texture applied to it (CSS style)</li>
+        <li>It should <b>always</b> be used if possible as it will always give better performance!</li>
+        <li>Or so you'd think</li>
+        <li>Certain mobile devices by manufacturers that like to tweek things in a bad way create bugs in the GPU mode rendering pipeline that are impossible to avoid</li>
+        <li>Besides that, GPU mode currently has some weaknesses...</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>GPU mode</h2>
+      <h3>Annoying fun!</h3>
+    </hgroup>
+    <article style="font-size:0.5em;">
+      <p>Let's see what happens when we try out the Remove/Re-add Rule and mix it with GPU mode rendering by using transform: translate3d instead of left and top!</p>
+    </article>
+  </slide>
+
+  <slide class="">
+    <article>
+      <iframe src="sample_layout_halfmyth_translate3d.html"></iframe>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>GPU mode</h2>
+      <h3>Annoying fun fixed!</h3>
+    </hgroup>
+    <article style="font-size:0.7em;">
+      <p>Ok, let's do it without the Remove/Re-add Rule with translate3d!</p>
+    </article>
+  </slide>
+
+  <slide class="">
+    <article>
+      <iframe src="sample_layout_translate3d.html"></iframe>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>GPU mode</h2>
+      <h3>Warnings</h3>
     </hgroup>
     <article>
       <ul class="build">
-        <li></li>
+        <li>GPU mode requires textures</li>
+        <li>It is a slow process to upload textures to GPU memory</li>
+        <li>Currently, Chrome will <b>unload</b> textures from memory the instant they are removed from the DOM tree</li>
+        <li>In the Remove/Re-add Rule, <b>all</b> elements' textures are destroyed</li>
+        <li>When they are re-added to the tree, they need to be re-painting <b>and</b> re-uploaded to the GPU</li>
+        <li>That is why there are so many paints going on in the before sample</li>
+        <li>I see this as something that can be optimized in the future and expect developers of browsers to fix this</li>
+        <li>But for now, be mindful that when animating/positioning things via GPU mode, you are working with low level textures and need to think like that</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Compositing</h2>
+      <h3>Results</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Compositing</h2>
+      <h3>Results</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li><b>Use</b> GPU mode if possible</li>
+        <li><b>Imagine</b> all objects are textures</li>
+        <li><b>Test</b> for devices that have bugs in GPU mode</li>
+        <li><b>Do not use</b> the Remove/Re-add Rule in GPU mode</li>
+        <li><b>Be careful</b> about memory usage</li>
+        <li><b>Remember</b> that textures are <b>destroyed</b> when their element is removed from  the DOM</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>HTML Canvas</h2>
+      <h3>2D is actually 3D</h3>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>HTML Canvas</h2>
+      <h3>What is it?</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>An element allowing you to <b>draw something</b> somewhere</li>
+        <li>Provides 2D and 3D API's via the boring Canvas name and WebGL</li>
+        <li>Very useful for games and many other interesting web sites</li>
+        <li>In modern browsers, actually doesn't have a '2d' option...</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>HTML Canvas</h2>
+      <h3>How it works</h3>
     </hgroup>
     <article>
       <ul class="build">
-        <li></li>
+        <li>In a simple unoptimized world, as you call drawImage, lineTo, fillRect and such, it will do just that, copy pixels to the screen (or buffer) as you do things</li>
+        <li>Sadly, this is very slow, so browsers try much much harder than that</li>
+        <li>We'll talk about modern Chrome and it's accelerated deferred rendering</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>Accelerated Canvas</h2>
     </hgroup>
     <article>
       <ul class="build">
-        <li></li>
+        <li>First of all, this means GPU mode
+          <ul>
+            <li>Remember, everything is a texture, polygon or point</li>
+            <li>This Canvas and all Canvases are also of GPU mode and exist as a <b>texture</b> in the GPU</li>
+            <li>Have a 500x500 real pixel Canvas? You have a 500x500 pixel texture sitting in the GPU</li>
+          </ul>
+        </li>
+        <li>All Canvas commands get <b>translated</b> in to some 3D command to be run on the GPU</li>
+        <li>Even though you think you are drawing in 2D, you are actually drawing in 3D</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>Accelerated Canvas</h2>
     </hgroup>
     <article>
-      <ul class="build">
-        <li></li>
+      <ul>
+        <li>This session won't cover exactly how Canvas API's translate to GPU commands</li>
+        <li>However you can imagine fillRect(x, y, w, h) as making a rect polygon filled with the current fillStyle colour and/or pattern texture</li>
+        <li>Transforming paths and images in an accelerated Canvas is very fast as it is done in the GPU</li>
+        <li>While fast, actually drawing paths in the GPU is not <b>awesomely</b> fast</li>
+        <li>However, drawImage <b>is awesomely fast</b></li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
     <hgroup>
-      <h2>Layout</h2>
+      <h2>Deferred Canvas</h2>
     </hgroup>
     <article>
       <ul class="build">
-        <li></li>
+        <li>Modern Chrome has a newer optimization built in for Canvas called deferred 2d Canvas</li>
+        <li>It does what it sounds like, it takes those GPU commands generated from the accelerated Canvas and <b>waits</b> to execute them until later</li>
+        <li>It executes them when you actually want to <b>use</b> the result of that render
+          <ul>
+            <li>For example when if you draw in to a Canvas element not in the DOM tree, it will never actually draw anything to the canvas until you call toDataURL, getImageData, or drawImage it to another Canvas</li>
+          </ul>
+        </li>
+        <li>This allows for many optimizations like merging drawing commands together amongst others</li>
+        <li>Transparent to the developer!</li>
       </ul>
     </article>
   </slide>
 
+  <slide class="">
+    <hgroup>
+      <h2>drawImage</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>No reason to <b>not</b> use drawImage <b>exclusivly</b></li>
+        <li>Literally copying pixels directly in the GPU. <b>Can't get any faster</b></li>
+        <li>Let's look at an example</li>
+      </ul>
+    </article>
+  </slide>
 
+  <slide class="">
+    <article style="font-size:0.6em">
+      <p>Use fillStyle and bezierCurveTo each frame to draw all 500 hearts</p>
+    </article>
+  </slide>
 
+  <slide class="">
+    <article>
+      <iframe src="sample_layout_canvas_rawdraw.html"></iframe>
+    </article>
+  </slide>
 
+  <slide class="">
+    <article style="font-size:0.6em">
+      <p>Cache all 500 hearts as invididual Canvases and drawImage them</p>
+    </article>
+  </slide>
 
+  <slide class="">
+    <article>
+      <iframe src="sample_layout_canvas_drawimage.html"></iframe>
+    </article>
+  </slide>
 
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>HTML Canvas</h2>
+      <h3>Results</h3>
+    </hgroup>
+  </slide>
 
+  <slide class="">
+    <hgroup>
+      <h2>HTML Canvas</h2>
+      <h3>Results</h3>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>Modern Canvas is <b>actually 3D</b></li>
+        <li>Uses GPU mode</li>
+        <li>Transforming paths and images is very fast</li>
+        <li>Drawing raw paths is <b>not as fast</b> as <b>drawImage</b></li>
+        <li><b>Always</b> use drawImage for everything</li>
+        <li>Browsers are getting <b>smarter</b> and <b>faster</b> every day</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>requestAnimationFrame</h2>
+    </hgroup>
+    <article>
+      <ul class="build">
+        <li>What about the infamous requestAnimationFrame?</li>
+        <li>You should use it in real world projects!</li>
+        <li>Allows you to render only when the browser will actually render to the screen</li>
+        <li>setTimeout will render faster than what is actually displayed</li>
+        <li>Optimized so that render/drawing related operations run <b>faster</b> than in normal execution</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark nobackground">
+    <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
+    <hgroup class="auto-fadein">
+      <h2>Summary</h2>
+    </hgroup>
+  </slide>
+
+  <slide class="">
+    <hgroup>
+      <h2>Summary</h2>
+      <h3>Things we covered</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>Overview of how to make many parts of the browser faster</li>
+        <li>How to make layout a bit faster, especially in JavaScript</li>
+        <li>Overview of what painting is and how to debug it for speed</li>
+        <li>Overview of what compositing and GPU mode is and how to work with it</li>
+        <li>How to use HTML Canvas (2D) a faster</li>
+      </ul>
+    </article>
+  </slide>
 
   <slide class="thank-you-slide segue nobackground">
     <aside class="gdbar right"><img src="images/gree_logo_small.png"></aside>

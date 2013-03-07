@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Absolute Positioning</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      border: none;
+      overflow: hidden;
+    }
+  </style>
+  <script>//<![CDATA[
+
+    var mAnimationIterations = 30;
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      // Stupid chrome bug.
+      // Iframes dont set innerWidth correctly on load...
+      // Need to wait...
+      function wait() {
+        if (window.innerWidth > 0) {
+          go();
+        } else {
+          setTimeout(wait, 100);
+        }
+      }
+
+      wait();
+
+      function go() {
+        var tCanvas = document.getElementById('canvas');
+        var mContext = tCanvas.getContext('2d');
+
+        var tElement;
+        var tNumber = 500;
+        var tWidth = window.innerWidth;
+        var tHeight = window.innerHeight;
+        var tElements = new Array(tNumber);
+        var tAnimationIterations = mAnimationIterations;
+
+        tCanvas.width = tWidth;
+        tCanvas.height = tHeight;
+
+        for (var i = 0; i < tNumber; i++) {
+          tElement = 'rgb(' +
+            (Math.random() * 255 | 0) + ',' +
+            (Math.random() * 255 | 0) + ',' +
+            (Math.random() * 255 | 0) + ')';
+
+          tElements[i] = tElement;
+
+          mContext.setTransform(1, 0, 0, 1, Math.random() * tWidth, Math.random() * tHeight);
+          mContext.fillStyle = tElement;
+          //mContext.fillRect(0, 0, 50, 50);
+          mContext.beginPath();
+          mContext.moveTo(55, 15);
+          mContext.bezierCurveTo(55, 9, 50, 0, 30, 0);
+          mContext.bezierCurveTo(0, 0, 0, 37.5, 0, 37.5);
+          mContext.bezierCurveTo(0, 55, 20, 77, 55, 95);
+          mContext.bezierCurveTo(90, 77, 110, 55, 110, 37.5);
+          mContext.bezierCurveTo(110, 37.5, 110, 0, 80, 0);
+          mContext.bezierCurveTo(65, 0, 55, 9, 55, 15);
+          mContext.fill();
+        }
+
+        document.addEventListener('click', function() {
+          var tStartTime = performance.now();
+
+          function move() {
+            var tContext = mContext;
+            var tGElements = tElements;
+            var tTime = 0.0;
+
+            tContext.setTransform(1, 0, 0, 1, 0, 0);
+            tContext.clearRect(0, 0, tWidth, tHeight);
+
+            for (var i = 0, il = tNumber; i < il; i++) {
+              tContext.setTransform(1, 0, 0, 1, Math.random() * tWidth, Math.random() * tHeight);
+              tContext.fillStyle = tGElements[i];
+              //tContext.fillRect(0, 0, 50, 50);
+              tContext.beginPath();
+              tContext.moveTo(55, 15);
+              tContext.bezierCurveTo(55, 9, 50, 0, 30, 0);
+              tContext.bezierCurveTo(0, 0, 0, 37.5, 0, 37.5);
+              tContext.bezierCurveTo(0, 55, 20, 77, 55, 95);
+              tContext.bezierCurveTo(90, 77, 110, 55, 110, 37.5);
+              tContext.bezierCurveTo(110, 37.5, 110, 0, 80, 0);
+              tContext.bezierCurveTo(65, 0, 55, 9, 55, 15);
+              tContext.fill();
+            }
+
+            if (--tAnimationIterations > 0) {
+              setTimeout(move, 0);
+            } else {
+              tAnimationIterations = mAnimationIterations;
+              tTime = performance.now() - tStartTime;
+              alert('Time: ' + tTime + 'ms');
+            }
+          }
+
+          move();
+        }, false);
+      }
+    }, false);
+
+  //]]></script>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+</html>

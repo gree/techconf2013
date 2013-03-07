@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Absolute Positioning</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    div {
+      margin: 0;
+      padding: 0;
+      border: none;
+      position: absolute;
+      width: 10px;
+      height: 10px;
+    }
+
+    #container {
+      margin: 0;
+      padding: 0;
+      border: none;
+      overflow: hidden;
+    }
+  </style>
+  <script>//<![CDATA[
+
+    var mAnimationIterations = 30;
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      // Stupid chrome bug.
+      // Iframes dont set innerWidth correctly on load...
+      // Need to wait...
+      function wait() {
+        if (window.innerWidth > 0) {
+          go();
+        } else {
+          setTimeout(wait, 100);
+        }
+      }
+
+      wait();
+
+      function go() {
+        var tContainer = document.getElementById('container');
+
+        var tElement;
+        var tNumber = 1500;
+        var tWidth = window.innerWidth + 0.0;
+        var tHeight = window.innerHeight + 0.0;
+        var tElements = new Array(tNumber);
+        var tAnimationIterations = mAnimationIterations;
+
+        tContainer.style.width = tWidth + 'px';
+        tContainer.style.height = tHeight + 'px';
+
+        for (var i = 0; i < tNumber; i++) {
+          tElement = document.createElement('div');
+
+          tElements[i] = tElement;
+          tContainer.appendChild(tElement);
+
+          tElement.style.backgroundColor = 'rgb(' +
+            (Math.random() * 255 | 0) + ',' +
+            (Math.random() * 255 | 0) + ',' +
+            (Math.random() * 255 | 0) + ')';
+
+          //tElement.style.left = (Math.random() * tWidth) + 'px';
+          //tElement.style.top = (Math.random() * tHeight) + 'px';
+          tElement.style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
+        }
+
+        document.addEventListener('click', function() {
+          var tStartTime = performance.now();
+
+          function move() {
+            var tGElements = tElements;
+            var tTime = 0.0;
+            var tParent = tContainer.parentNode;
+            tParent.removeChild(tContainer);
+
+            for (var i = 0, il = tNumber; i < il; i++) {
+              //tGElements[i].style.left = (Math.random() * tWidth) + 'px';
+              //tGElements[i].style.top = (Math.random() * tHeight) + 'px';
+              tGElements[i].style.webkitTransform = 'translate3d(' + (Math.random() * tWidth) + 'px,' + (Math.random() * tHeight) + 'px, 0)';
+            }
+
+            if (--tAnimationIterations > 0) {
+              setTimeout(move, 0);
+            } else {
+              tAnimationIterations = mAnimationIterations;
+              tTime = performance.now() - tStartTime;
+              alert('Time: ' + tTime + 'ms');
+            }
+
+            tParent.appendChild(tContainer);
+          }
+
+          move();
+        }, false);
+      }
+    }, false);
+
+  //]]></script>
+</head>
+<body>
+  <div id="container"></div>
+</body>
+</html>
