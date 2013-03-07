@@ -13,9 +13,14 @@
 
 
 
+    <aside class="note">
+      <ul>
+        <li></li>
+      </ul>
+    </aside>
 
 
-
+1 2 3 4 5 6 7
 
 layout:
 !* dont use position:relative constantly

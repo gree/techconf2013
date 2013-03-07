@@ -129,8 +129,11 @@ URL: https://code.google.com/p/io-2012-slides
       </pre>
     </article>
   </slide>
-
+<!-- 7 -->
   <slide class="segue dark nobackground">
+    <aside class="note">
+      <b>14:23</b>
+    </aside>
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
       <h2>Performance</h2>
@@ -143,9 +146,8 @@ URL: https://code.google.com/p/io-2012-slides
       <h2>Types of Performance on the Web</h2>
     </hgroup>
     <article>
-      <p>Several types of performance that we could look at.</p>
       <div class="columns">
-        <ul class="build">
+        <ul>
           <h3>HTML</h3>
           <li>Network</li>
           <li>Resource</li>
@@ -154,7 +156,7 @@ URL: https://code.google.com/p/io-2012-slides
           <li data-highlight>Painting</li>
           <li data-highlight>Compositing</li>
         </ul>
-        <ul class="build">
+        <ul>
           <h3>JavaScript</h3>
           <li>Raw execution</li>
           <li data-highlight>Usage of DOM</li>
@@ -174,22 +176,28 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Calculation of element's position and size</li>
+        <li>Many kind of layouts, each with their own algorithms</li>
+        <li>The old ones' specifications are ugly and difficult to understand</li>
+        <li>Yes, there is a CSS3 Positioning Module. But nobody implements it?</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Layout</h2>
       <h3>What is it?</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>When the position and size of all objects is calculated</li>
-        <li>No easy to read single algorithm for 'layout'</li>
-        <li>Instead there are layout models that have their own algorithms</li>
-        <li>They are all messy and hidden inside of the CSS2 specification
+      <ul>
+        <li>Calculation of element's position and size</li>
+        <li>Many different layout models</li>
+        <li>Messy and hidden inside of the CSS2 specification
           <ul>
             <li><a href="http://www.w3.org/TR/CSS2/visudet.html">http://www.w3.org/TR/CSS2/visudet.html</a></li>
-            <li>Yes, there is a CSS3 Positioning Module. But nobody implements it?</li>
           </ul>
         </li>
-        <li>There are extentions adding new layout models that are very clear and easy to understand.
+        <li>New layout models that are very clear and easy to understand.
           <ul>
             <li><a href="http://www.w3.org/TR/css3-flexbox/">Flexbox</a> (http://www.w3.org/TR/css3-flexbox/)</li>
             <li><a href="http://www.w3.org/TR/css3-multicol/">Multi-column</a> (http://www.w3.org/TR/css3-multicol/)</li>
@@ -201,15 +209,20 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>That's a lot of things calculate and we want to make this process as fast as possible</li>
+        <li>Calculating the position of thousands of nodes WILL be slow</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Layout</h2>
       <h3>Why do we care?</h3>
     </hgroup>
     <article>
       <ul>
-        <li>Load up your average web page and count the number of DOM objects that exist inside it</li>
-        <li>Yahoo.co.jp had 2153 nodes (text and elements)</li>
-        <li>That's a lot of things calculate and we want to make this process as fast as possible</li>
+        <li>Most average web sites have huge numbers of nodes to layout</li>
+        <li>Yahoo.co.jp had 2153 nodes (text and elements) (And that's optimized!)</li>
       </ul>
     </article>
   </slide>
@@ -223,24 +236,28 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>We will ignore new and unstable layout models like flexbox</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>How Positioning Works</h2>
       <h3>Types of Positioning</h3>
     </hgroup>
     <article>
-      <p>Since new things like flexbox is still very new, we will ignore them. Here is what we will look at:</p>
-      <ul class="build">
+      <ul>
         <li>Normal Flow
           <ul>
-            <li>position: static</li>
-            <li>position: relative</li>
+            <li><code>position: static</code></li>
+            <li><code>position: relative</code></li>
           </ul>
         </li>
-        <li>Floating (float: left/right)</li>
+        <li>Floating (<code>float: left/right</code>)</li>
         <li>Absolute
           <ul>
-            <li>position: absolute</li>
-            <li>position: fixed</li>
+            <li><code>position: absolute</code></li>
+            <li><code>position: fixed</code></li>
           </ul>
         </li>
       </ul>
@@ -253,64 +270,65 @@ URL: https://code.google.com/p/io-2012-slides
       <h3>Static</h3>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>The simplest</li>
         <li>Create boxes for containers (like div)</li>
         <li>Flow the boxes vertically, one box per row</li>
-        <li>Flow content (line-boxes) horizontally inside boxes
-          <ul>
-            <li><aside>Calculating the size of content is semi-complex, but not important for this session</aside></li>
-          </ul>
-        </li>
+        <li>Flow content (line-boxes) horizontally inside boxes</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>All relative layouts first do static. Therefore relative is always slower than static (slightly)</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Normal Flow</h2>
       <h3>Relative</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>Allows you to move the position of an element by an amount relative to it's normal position</li>
-        <li><b>All</b> relative layouts first run the static normal flow layout algorithm</li>
-        <li>Therefore relative is slower than static (slightly)</li>
+      <ul>
+        <li>Move from normal position by x,y</li>
+        <li><b>All</b> relative layouts first do a static layout</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>If all floats, will be fast.</li>
+        <li>If mixed with normal flow elements, its slower due to complexity</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Floating</h2>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>Positions elements on the left or right side of another float element or the current block container</li>
-        <li>Removes the element from normal flow, meaning other normal flow elements are unaffected by floating elements</li>
         <li>Very difficult to plan and understand</li>
-        <li>Can be slow or fast
-          <ul>
-            <li>Mixing with non-float elements can be a little heavy on layout</li>
-            <li>If overflow is something other than hidden, a strange float could cause other elements to overflow causing the scrollbar to appear in turn causing more position calculations</li>
-          </ul>
-        </li>
+        <li>Can be slow or fast</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Containing block is the viewport or an element with position not equal to static</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Absolute</h2>
       <h3>Absolute absolute</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>Positions elements relative to the current containing block, in CSS units, to an exact location
-          <ul class="build">
-            <li>Containing block is the viewport, an element with position not equal to static</li>
-          </ul>
-        </li>
+      <ul>
+        <li>Positions elements relative to the current containing block, in CSS units, to an exact location</li>
         <li>Messy if not managed properly</li>
         <li>Layout is <b>fast</b></li>
       </ul>
@@ -318,16 +336,21 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Since we are relative to something that never changes, scrolling never happens</li>
+        <li>However there are issues on mobile devices...</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Absolute</h2>
       <h3>Fixed absolute</h3>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>A subclass of regular absolute</li>
-        <li>Always positions elements relative to the viewport (screen)</li>
-        <li>Since we are relative to something that never changes, scrolling never happens</li>
-        <li>In other words, layout is <b>very</b> fast</li>
+        <li>Always positions relative to the viewport (screen)</li>
+        <li>Layout is <b>very</b> fast</li>
       </ul>
     </article>
   </slide>
@@ -341,28 +364,39 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Fixed > absolute > static > relative > float</li>
+        <li>Things get slower because deep in the tree, if you edit something that affects something high in the tree, the whole tree might have to be reflowed</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Order of Speed</h2>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>Fixed > absolute > static > relative > float</li>
-        <li>However float <b>can</b> be faster or slower depending on the situation</li>
-        <li>The further you go down in to the DOM tree, the slower static, relative and float get</li>
+        <li>Float <b>can</b> be faster or slower</li>
+        <li>As you go deep in the DOM tree, static, relative and float get slower</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>It just creates new containing blocks that just use up resources</li>
+        <li>I see this often in web sites. CSS-wise its convenient to make simple classes like this but it hurts performance a lot</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Relative Positioning Evil</h2>
     </hgroup>
     <article class="small">
       <ul>
-        <li>Don't use position:relative if you don't need to</li>
-        <li>It just creates new containing blocks that just use up resources</li>
+        <li>Don't use <code>position:relative</code> if you don't need to</li>
       </ul>
-      <pre data-lang="css">
+      <pre class="prettyprint" data-lang="css">
         div { position: relative; }
         .moveable_class { position: absolute; !important }
       </pre>
@@ -377,22 +411,11 @@ URL: https://code.google.com/p/io-2012-slides
       </pre>
     </article>
   </slide>
-
-  <slide class="">
-    <hgroup>
-      <h2>Floating Evil</h2>
-    </hgroup>
-    <article>
-      <ul class="build">
-        <li>Floating itself is not all that slow</li>
-        <li>However it's terribly difficult to read and understand</li>
-        <li>As a personal request, don't use it</li>
-        <li>^_^</li>
-      </ul>
-    </article>
-  </slide>
-
+<!-- 23 -->
   <slide class="segue dark nobackground">
+    <aside class="note">
+      <b>14:31</b>
+    </aside>
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
       <h2>Layout</h2>
@@ -401,21 +424,25 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>First of all, I love JavaScript</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>JavaScript is Scary</h2>
     </hgroup>
     <article class="build">
-      <ul class="build">
-        <li>First of all, I love JavaScript</li>
-        <li>I allows you to do really cool stuff <b>when you know what you're doing</b></li>
-        <li>However, the language allows you to do something evil</li>
+      <ul>
+        <li>JavaScript allows you to do cool stuff</li>
+        <li>It also allows you to do something evil</li>
       </ul>
       <pre class="prettyprint smaller" data-lang="javascript">
         function HTMLHtmlElement() {
           Object.defineProperty(this, 'offsetWidth', {
-            <b>get: function() {
-              // Calculate all child elements' positions and sizes!
-            },</b>
+            <b>get: function() {</b>
+              <b>// Calculate all child elements' positions and sizes!</b>
+            <b>},</b>
             configurable: false,
             enumerable: true
           });
@@ -463,15 +490,18 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>This is a very heavy process</li>
+        <li>How heavy?</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Offset and Client Properties</h2>
     </hgroup>
     <article>
       <p>These properties all calculate their own size (padding edge or border edge).</p>
-      <p>In order to do this, all of their children's sizes must also be calculated.</p>
-      <p>Sadly, this is a very heavy process</p>
-      <br>
-      <p>How heavy?</p>
+      <p>All of their children's sizes are also be calculated.</p>
     </article>
   </slide>
 
@@ -486,7 +516,7 @@ URL: https://code.google.com/p/io-2012-slides
       <h2>Offset and Client Properties</h2>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>If you know the value won't change, cache it and use it</li>
         <li>If you access them in the middle of changing other properties, it is possible to force a reflow</li>
       </ul>
@@ -497,7 +527,7 @@ URL: https://code.google.com/p/io-2012-slides
     <hgroup>
       <h2>Inserting Elements Via the DOM</h2>
     </hgroup>
-    <article class="build">
+    <article>
       <ul>
         <li>A common thing to do since the DHTML days</li>
       </ul>
@@ -530,7 +560,7 @@ URL: https://code.google.com/p/io-2012-slides
         }
         <b>body.appendChild(fragment);</b>
       </pre>
-      <ul class="build">
+      <ul>
         <li>Edit all properties <b>before</b> calling appendChild</li>
         <li>Use a DocumentFragment (<a href="http://dom.spec.whatwg.org/#interface-documentfragment">http://dom.spec.whatwg.org/#interface-documentfragment</a>)</li>
       </ul>
@@ -543,18 +573,17 @@ URL: https://code.google.com/p/io-2012-slides
       <h3>Some interesting facts</h3>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>They used to be <b>way</b> faster than anything else</li>
         <li>With recent optimizations in browsers, they are roughly the same speed as the normal appendChild</li>
-        <li>Any element inside a DocumentFragment has no layout box
+        <li>Elements inside a DocumentFragment have no layout box
           <ul>
-            <li>This means almost all values in CSS are <b>uninitialized or 0</b>
+            <li>Almost all values in CSS are <b>uninitialized or 0</b>
               <ul>
                 <li>Try it out with window.getComputedStyle!</li>
               </ul>
             </li>
-            <li>However that is exactly why they are so fast</li>
-            <li>Impossible to make a reflow or paint happen with a DocumentFragment</li>
+            <li>Impossible to make a reflow or paint happen</li>
           </ul>
         </li>
       </ul>
@@ -562,22 +591,26 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>I'll explain GPU mode later</li>
+        <li>Browsers are optimized so that they are smart about when reflows fire</li>
+        <li>Meaning we don't need to worry about this as much as before, but in some cases is good to use</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>The Remove/Re-add Rule</h2>
     </hgroup>
     <article>
       <p>There are many articles on the Internet saying that it is faster to remove the group of nodes you are about to edit from the DOM tree (removeChild), edit all the nodes (avoiding reflow), and re-insert them back in to the same place in the DOM tree.</p>
-      <ul class="build">
+      <ul>
         <li>This used to be true and still is in some cases</li>
         <li>It is now <b>false</b> in all situations that <b>I have personally tested</b> that <b>use GPU mode for rendering</b>
           <ul>
             <li>Like transform: translate3d(x,y,z)</li>
-            <li>Possibly in the future <b>everything</b></li>
             <li>Now-a-days, the browser will get <b>slower</b> due to a <b>paint</b> that occurs from re-adding the nodes</li>
           </ul>
         </li>
-        <li>Browsers are optimized so that they are smart about when reflows fire</li>
-        <li>Meaning we don't need to worry about this as much as before, but in some cases is good to use</li>
       </ul>
     </article>
   </slide>
@@ -596,18 +629,21 @@ URL: https://code.google.com/p/io-2012-slides
       <h3>Results</h3>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>Fixed > absolute > static > relative > float</li>
-        <li><b>Remember</b> JavaScript properties can do a lot of work <b>just by accessing them</b></li>
-        <li><b>Cache</b> computed values (offset/client properties) if possible</li>
-        <li>Edit element properties <b>before</b> adding them to the DOM tree</li>
+        <li><b>Remember</b> JavaScript properties can be slow <b>just by accessing them</b></li>
+        <li><b>Cache</b> computed values if possible</li>
+        <li>Edit element properties <b>before</b> adding them</li>
         <li><b>Use</b> DocumentFragment</li>
         <li><b>Do not use</b> the Remove/Re-add Rule in GPU mode</li>
       </ul>
     </article>
   </slide>
-
+<!-- 36 -->
   <slide class="segue dark nobackground">
+    <aside class="note">
+      <b>14:39</b>
+    </aside>
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
       <h2>Painting</h2>
@@ -616,41 +652,51 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Painting methods (and performance) change drastically from platform to platform and browser to browser</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Painting</h2>
       <h3>What is is?</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>After the layout of elements, the browser needs to <b>draw</b> them to the screen</li>
-        <li>In Chrome/WebKit world this is called painting</li>
-        <li>The browser will calculate what elements are visible in the viewport and draw them</li>
-        <li>Painting methods (and performance) change drastically from platform to platform and browser to browser</li>
+      <ul>
+        <li>After layout, browsers need to <b>draw</b> elements to the screen</li>
+        <li>Chrome/WebKit calls this painting</li>
+        <li>Calculates what elements are visible now and draw them</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>For the decendant, its possible that a change will cause a redraw for background and borders and such for the parent</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Painting</h2>
       <h3>When it happens</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>When the page is viewed (loads) the first time</li>
-        <li>When you scroll the page</li>
-        <li>When you hide an element and re-show it again
-          <ul>
-            <li>This is the problem when you use the Remove/Re-add Rule</li>
-          </ul>
-        </li>
-        <li>When visual properties of an element changes</li>
+      <ul>
+        <li>Viewing (loading) the page the first time</li>
+        <li>Scrolling the page</li>
+        <li>Hiding an element and re-showing it again in GPU mode</li>
+        <li>Changing visual properties of an element</li>
         <li>Possibily when a decendant (or possibly ancestor) element changes</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Can't really optimize it too much. Just be thinking about it. Here's how.</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Painting</h2>
       <h3>Seeing when it happens</h3>
@@ -668,6 +714,12 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Explain the paint events and show off layout too</li>
+        <li>Remember the MS seconds!</li>
+      </ul>
+    </aside>
     <article>
       <iframe src="sample_layout_topleft.html"></iframe>
     </article>
@@ -684,6 +736,12 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Remember the time and compare.</li>
+        <li>If there is time, show the paint events</li>
+      </ul>
+    </aside>
     <article>
       <iframe src="sample_layout_halfmyth_lefttop.html"></iframe>
     </article>
@@ -698,20 +756,29 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Shadow related CSS (and canvas) is very slow due to the calculations of shadows (especially blur)</li>
+        <li>Also slow because you paint over top of OTHER elements outside of your layout</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Painting</h2>
       <h3>Results</h3>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li>Painting is difficult to optimize</li>
         <li>Check the developer tools timeline feature</li>
         <li>Avoid shadow related CSS</li>
       </ul>
     </article>
   </slide>
-
+<!-- 45 -->
   <slide class="segue dark nobackground">
+    <aside class="note">
+      <b>14:47</b>
+    </aside>
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
       <h2>Compositing</h2>
@@ -720,36 +787,38 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Layout layers are like the different types of positions and DOM node order</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Compositing</h2>
       <h3>What is it?</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>When the browser takes painted elements and mixes them in the correct order for you to view</li>
+      <ul>
+        <li>Taking painted elements and mixing them in the correct order on the screen</li>
         <li>Mostly a GPU thing</li>
-        <li>Looks at information like z-index, transform's Z properties, opacity and layout layers
-          <ul>
-            <li>Like the different types of positions and DOM order</li>
-          </ul>
-        </li>
+        <li>Looks at information like z-index, transform's Z properties, opacity and layout layers</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Painting will not happen if only position related properties changed</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Compositing</h2>
       <h3>When it happens</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>Whenever a paint happens</li>
-        <li>When position-related properties only change on an element
-          <ul>
-            <li>In this case, no painting will occur (in GPU mode)</li>
-          </ul>
-        </li>
+      <ul>
+        <li>After a paint</li>
+        <li>After position-related properties change on an element</li>
       </ul>
     </article>
   </slide>
@@ -763,19 +832,23 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
-    <hgroup>
-      <h2>GPU mode</h2>
-      <h3>What is it?</h3>
-    </hgroup>
-    <article>
-      <ul class="build">
-        <li>A method the browser uses to render everything to the screen</li>
-        <li>Uses 3D APIs (OpenGL, DirectX, etc) for <b>everything</b></li>
+    <aside class="note">
+      <ul>
         <li>3D API's <b>need</b> to only work with polygons, points and textures
           <ul>
             <li>Ok, so shaders are there too, but we will ignore those as things will get too complex</li>
           </ul>
         </li>
+      </ul>
+    </aside>
+    <hgroup>
+      <h2>GPU mode</h2>
+      <h3>What is it?</h3>
+    </hgroup>
+    <article>
+      <ul>
+        <li>A method to render everything to the screen</li>
+        <li>Usage of 3D APIs (OpenGL, DirectX, etc) for <b>everything</b></li>
         <li>In GPU mode, browsers translate a web page in to a 3D scene!</li>
       </ul>
     </article>
@@ -787,9 +860,9 @@ URL: https://code.google.com/p/io-2012-slides
       <h3>When is it used?</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>Whenever a 3D related CSS property is used</li>
-        <li>Whenever you use HTML Canvas in a modern browser</li>
+      <ul>
+        <li>Using a 3D related CSS property</li>
+        <li>Using HTML Canvas in a modern browser</li>
         <li>Depending on platform and browser flags, <b>always</b></li>
         <li>In the future, probably always!</li>
       </ul>
@@ -797,17 +870,20 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Certain mobile devices by manufacturers that like to tweek things in a bad way create bugs in the GPU mode rendering pipeline that are impossible to avoid</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>GPU mode</h2>
       <h3>So?</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>So all we care about in this session is that in GPU mode, every element ends up as at least a single rectangle (polygon) with a texture applied to it (CSS style)</li>
-        <li>It should <b>always</b> be used if possible as it will always give better performance!</li>
-        <li>Or so you'd think</li>
-        <li>Certain mobile devices by manufacturers that like to tweek things in a bad way create bugs in the GPU mode rendering pipeline that are impossible to avoid</li>
-        <li>Besides that, GPU mode currently has some weaknesses...</li>
+      <ul>
+        <li>Every element is at least a single rectangle with a texture applied to it (CSS style)</li>
+        <li>It should <b>always</b> be used if possible</li>
+        <li>Unless you hit some of GPU mode's weaknesses...</li>
       </ul>
     </article>
   </slide>
@@ -818,11 +894,20 @@ URL: https://code.google.com/p/io-2012-slides
       <h3>Annoying fun!</h3>
     </hgroup>
     <article style="font-size:0.5em;">
-      <p>Let's see what happens when we try out the Remove/Re-add Rule and mix it with GPU mode rendering by using transform: translate3d instead of left and top!</p>
+      <p>The Remove/Re-add Rule and GPU mode with <code>transform: translate3d</code> instead of left and top!</p>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Show the paints and explain the remove-re-add rule again</li>
+        <li>Currently, Chrome will <b>unload</b> textures from memory when removed from the DOM</li>
+        <li>In the Remove/Re-add Rule, <b>all</b> elements' textures are destroyed</li>
+        <li>I see this as something that can be optimized in the future and expect developers of browsers to fix this</li>
+        <li>But for now, be mindful that when animating/positioning things via GPU mode, you are working with low level textures and need to think like that</li>
+      </ul>
+    </aside>
     <article>
       <iframe src="sample_layout_halfmyth_translate3d.html"></iframe>
     </article>
@@ -834,7 +919,7 @@ URL: https://code.google.com/p/io-2012-slides
       <h3>Annoying fun fixed!</h3>
     </hgroup>
     <article style="font-size:0.7em;">
-      <p>Ok, let's do it without the Remove/Re-add Rule with translate3d!</p>
+      <p>Without the Remove/Re-add Rule with translate3d!</p>
     </article>
   </slide>
 
@@ -844,25 +929,6 @@ URL: https://code.google.com/p/io-2012-slides
     </article>
   </slide>
 
-  <slide class="">
-    <hgroup>
-      <h2>GPU mode</h2>
-      <h3>Warnings</h3>
-    </hgroup>
-    <article>
-      <ul class="build">
-        <li>GPU mode requires textures</li>
-        <li>It is a slow process to upload textures to GPU memory</li>
-        <li>Currently, Chrome will <b>unload</b> textures from memory the instant they are removed from the DOM tree</li>
-        <li>In the Remove/Re-add Rule, <b>all</b> elements' textures are destroyed</li>
-        <li>When they are re-added to the tree, they need to be re-painting <b>and</b> re-uploaded to the GPU</li>
-        <li>That is why there are so many paints going on in the before sample</li>
-        <li>I see this as something that can be optimized in the future and expect developers of browsers to fix this</li>
-        <li>But for now, be mindful that when animating/positioning things via GPU mode, you are working with low level textures and need to think like that</li>
-      </ul>
-    </article>
-  </slide>
-
   <slide class="segue dark nobackground">
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
@@ -872,23 +938,30 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Image objects are textures - Be mindful of memory</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Compositing</h2>
       <h3>Results</h3>
     </hgroup>
     <article>
-      <ul class="build">
+      <ul>
         <li><b>Use</b> GPU mode if possible</li>
-        <li><b>Imagine</b> all objects are textures</li>
+        <li><b>Imagine</b> all objects are textures in memory</li>
         <li><b>Test</b> for devices that have bugs in GPU mode</li>
         <li><b>Do not use</b> the Remove/Re-add Rule in GPU mode</li>
-        <li><b>Be careful</b> about memory usage</li>
-        <li><b>Remember</b> that textures are <b>destroyed</b> when their element is removed from  the DOM</li>
+        <li><b>Remember</b> that textures are <b>destroyed</b> when their element is removed from the DOM</li>
       </ul>
     </article>
   </slide>
-
+<!-- 59 -->
   <slide class="segue dark nobackground">
+    <aside class="note">
+      <b>14:55</b>
+    </aside>
     <aside class="gdbar"><img src="images/gree_logo_small.png"></aside>
     <hgroup class="auto-fadein">
       <h2>HTML Canvas</h2>
@@ -897,49 +970,63 @@ URL: https://code.google.com/p/io-2012-slides
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Talk about how modern web sites use Canvas for special effects on their sites</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>HTML Canvas</h2>
       <h3>What is it?</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>An element allowing you to <b>draw something</b> somewhere</li>
-        <li>Provides 2D and 3D API's via the boring Canvas name and WebGL</li>
-        <li>Very useful for games and many other interesting web sites</li>
-        <li>In modern browsers, actually doesn't have a '2d' option...</li>
+      <ul>
+        <li>An element for drawing</li>
+        <li>Provides 2D and 3D API's (Canvas and WebGL)</li>
+        <li>Useful for games and interesting web sites</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Drawing pixels is very slow in software. So browsers try very hard now-a-days to make Canvas as fast as possible with amazing optimizations</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>HTML Canvas</h2>
       <h3>How it works</h3>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>In a simple unoptimized world, as you call drawImage, lineTo, fillRect and such, it will do just that, copy pixels to the screen (or buffer) as you do things</li>
-        <li>Sadly, this is very slow, so browsers try much much harder than that</li>
-        <li>We'll talk about modern Chrome and it's accelerated deferred rendering</li>
+      <ul>
+        <li>A simple implementation would directly draw pixels as you do commands</li>
+        <li>Drawing pixels is slow</li>
+        <li>Instead amazing technologies exist to speed things up</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>First of all, this means GPU mode
+          <ul>
+            <li>Remember, everything is a texture, polygon or point</li>
+            <li>Have a 500x500 real pixel Canvas? You have a 500x500 pixel texture sitting in the GPU</li>
+          </ul>
+        </li>
+        <li>Even though you think you are drawing in 2D, you are actually drawing in 3D</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Accelerated Canvas</h2>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>First of all, this means GPU mode
-          <ul>
-            <li>Remember, everything is a texture, polygon or point</li>
-            <li>This Canvas and all Canvases are also of GPU mode and exist as a <b>texture</b> in the GPU</li>
-            <li>Have a 500x500 real pixel Canvas? You have a 500x500 pixel texture sitting in the GPU</li>
-          </ul>
-        </li>
-        <li>All Canvas commands get <b>translated</b> in to some 3D command to be run on the GPU</li>
-        <li>Even though you think you are drawing in 2D, you are actually drawing in 3D</li>
+      <ul>
+        <li>GPU mode</li>
+        <li>Canvases exist as a <b>texture</b> in the GPU</li>
+        <li>Canvas commands get <b>translated</b> in to some 3D command to be run on the GPU</li>
       </ul>
     </article>
   </slide>
@@ -950,43 +1037,48 @@ URL: https://code.google.com/p/io-2012-slides
     </hgroup>
     <article>
       <ul>
-        <li>This session won't cover exactly how Canvas API's translate to GPU commands</li>
-        <li>However you can imagine fillRect(x, y, w, h) as making a rect polygon filled with the current fillStyle colour and/or pattern texture</li>
-        <li>Transforming paths and images in an accelerated Canvas is very fast as it is done in the GPU</li>
-        <li>While fast, actually drawing paths in the GPU is not <b>awesomely</b> fast</li>
-        <li>However, drawImage <b>is awesomely fast</b></li>
+        <li>Imagine fillRect(x, y, w, h) being a rect polygon filled with the current fillStyle colour and/or pattern texture</li>
+        <li>Transforming paths and images is very fast</li>
+        <li>Drawing paths is not <b>awesomely</b> fast</li>
+        <li>drawImage <b>is awesomely fast</b></li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>Executes them when that canvas is used</li>
+        <li>For example when if you draw in to a Canvas element not in the DOM tree, it will never actually draw anything to the canvas until you call toDataURL, getImageData, or drawImage it to another Canvas</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>Deferred Canvas</h2>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>Modern Chrome has a newer optimization built in for Canvas called deferred 2d Canvas</li>
-        <li>It does what it sounds like, it takes those GPU commands generated from the accelerated Canvas and <b>waits</b> to execute them until later</li>
-        <li>It executes them when you actually want to <b>use</b> the result of that render
-          <ul>
-            <li>For example when if you draw in to a Canvas element not in the DOM tree, it will never actually draw anything to the canvas until you call toDataURL, getImageData, or drawImage it to another Canvas</li>
-          </ul>
-        </li>
-        <li>This allows for many optimizations like merging drawing commands together amongst others</li>
+      <ul>
+        <li>Chrome optimization for Canvas called deferred 2d Canvas</li>
+        <li>Takes GPU commands from accelerated Canvas and <b>waits</b> to execute them</li>
+        <li>Executes them when that canvas is <b>used</b></li>
+        <li>Many optimizations like merging drawing commands together possible</li>
         <li>Transparent to the developer!</li>
       </ul>
     </article>
   </slide>
 
   <slide class="">
+    <aside class="note">
+      <ul>
+        <li>GPU's are made for rendering textures FAST. That is what drawImage does</li>
+      </ul>
+    </aside>
     <hgroup>
       <h2>drawImage</h2>
     </hgroup>
     <article>
-      <ul class="build">
-        <li>No reason to <b>not</b> use drawImage <b>exclusivly</b></li>
+      <ul>
+        <li>No reason <b>not</b> to use drawImage</li>
         <li>Literally copying pixels directly in the GPU. <b>Can't get any faster</b></li>
-        <li>Let's look at an example</li>
       </ul>
     </article>
   </slide>
@@ -1005,7 +1097,7 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide class="">
     <article style="font-size:0.6em">
-      <p>Cache all 500 hearts as invididual Canvases and drawImage them</p>
+      <p>Cache all 500 hearts as individual Canvases and drawImage them</p>
     </article>
   </slide>
 
@@ -1033,14 +1125,17 @@ URL: https://code.google.com/p/io-2012-slides
         <li>Modern Canvas is <b>actually 3D</b></li>
         <li>Uses GPU mode</li>
         <li>Transforming paths and images is very fast</li>
-        <li>Drawing raw paths is <b>not as fast</b> as <b>drawImage</b></li>
-        <li><b>Always</b> use drawImage for everything</li>
+        <li>Drawing paths is <b>not as fast</b> as <b>drawImage</b></li>
+        <li><b>Always</b> use drawImage</li>
         <li>Browsers are getting <b>smarter</b> and <b>faster</b> every day</li>
       </ul>
     </article>
   </slide>
-
+<!-- 72 -->
   <slide class="">
+    <aside class="note">
+      <b>15:02</b>
+    </aside>
     <hgroup>
       <h2>requestAnimationFrame</h2>
     </hgroup>
